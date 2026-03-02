@@ -53,9 +53,9 @@ export default function Navbar() {
           </div>
 
           {/* Order Button */}
-          <button className="px-6 py-2 bg-yellow-400 text-black rounded-full font-bold hover:scale-110 transition">
+          <Link to="/menu"><button className="px-6 py-2 bg-yellow-400 text-black rounded-full font-bold hover:scale-110 transition">
             Order Now
-          </button>
+          </button></Link>
 
         </div>
       </motion.nav>

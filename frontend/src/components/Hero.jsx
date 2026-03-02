@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import CoffeeModel from "./CoffeeModel";
+import { Link } from "react-router-dom";
 
 export default function Hero(){
 
@@ -54,12 +55,16 @@ export default function Hero(){
           Luxury Coffee Experience ☕
         </motion.p>
 
-        <motion.button
-          whileHover={{scale:1.1}}
-          className="mt-10 px-10 py-4 bg-yellow-400 text-black rounded-full font-bold"
-        >
-          Explore Menu
-        </motion.button>
+        <Link to="/menu">
+          <motion.button
+            initial={{opacity:0,y:50}}
+            animate={{opacity:1,y:0}}
+            transition={{delay:1.5}}
+            className="mt-10 px-10 py-4 bg-yellow-400 text-black rounded-full font-bold hover:scale-110 transition"
+          >
+            Explore Menu
+          </motion.button>
+        </Link>
 
         {/* 3D Coffee */}
         <div className="absolute bottom-10 right-10 w-60 h-60 hidden md:block">

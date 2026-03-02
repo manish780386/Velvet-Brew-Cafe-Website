@@ -67,11 +67,11 @@ export default function Footer(){
           <h3 className="font-bold text-xl mb-4">Contact</h3>
 
           <p className="flex items-center gap-2 text-gray-400">
-            <FaMapMarkerAlt/> Huzurganj, India
+            <FaMapMarkerAlt/> Vijay Nager Square Indore, India
           </p>
 
           <p className="flex items-center gap-2 text-gray-400">
-            <FaPhone/> +91 98765 43210
+            <FaPhone/> +91 0000000000
           </p>
 
           <p className="flex items-center gap-2 text-gray-400">
