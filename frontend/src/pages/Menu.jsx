@@ -8,72 +8,96 @@ import axios from "axios";
 
 export default function Menu(){
 
-  const [cat,setCat] = useState("All");
-  const [cart,setCart] = useState([]);
-  const [open,setOpen] = useState(false);
-  const [order,setOrder] = useState({name:"",table:"",msg:""});
-  const [loading,setLoading] = useState(false);
+   const [cat, setCat] = useState("All");
+  const [cart, setCart] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [order, setOrder] = useState({ name: "", table: "", msg: "" });
+  const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
-    const saved = JSON.parse(localStorage.getItem("velvetCart")) || [];
-    setCart(saved);
-  },[]);
+  // ✅ Load cart from localStorage (only once)
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem("velvetCart")) || [];
+    setCart(savedCart);
+  }, []);
 
-  useEffect(()=>{
-    localStorage.setItem("velvetCart",JSON.stringify(cart));
-  },[cart]);
+  // ✅ Save cart to localStorage (only when cart changes)
+  useEffect(() => {
+    localStorage.setItem("velvetCart", JSON.stringify(cart));
+  }, [cart]);
 
-  const filtered = cat==="All" ? menu : menu.filter(i=>i.cat===cat);
+  // ✅ Filter menu
+  const filtered = cat === "All"
+    ? menu
+    : menu.filter(item => item.cat === cat);
 
-  function add(item){
-    setCart(prev=>{
-      const exist = prev.find(i=>i.id===item.id);
-      if(exist){
-        return prev.map(i=> i.id===item.id ? {...i, qty:(i.qty||1)+1} : i);
+  // ✅ Add to cart
+  function add(item) {
+    setCart(prev => {
+      const exist = prev.find(i => i.id === item.id);
+
+      if (exist) {
+        return prev.map(i =>
+          i.id === item.id
+            ? { ...i, qty: (i.qty || 1) + 1 }
+            : i
+        );
       }
-      return [...prev,{...item, qty:1}];
+
+      return [...prev, { ...item, qty: 1 }];
     });
   }
 
-  const total = cart.reduce((a,b)=> a + b.price*(b.qty||1),0);
+  // ✅ Total calculation
+  const total = cart.reduce(
+    (sum, item) => sum + item.price * (item.qty || 1),
+    0
+  );
 
-  async function orderNow(){
+  // ✅ Single clean order function
+  async function orderNow() {
 
-    if(!order.name || !order.table){
+    if (!order.name || !order.table) {
       alert("Please enter Name & Table Number");
       return;
     }
 
-    if(cart.length===0){
-      alert("Cart Empty ❌");
+    if (cart.length === 0) {
+      alert("Cart is Empty ❌");
       return;
     }
 
     setLoading(true);
 
-    try{
-      await axios.post("http://127.0.0.1:8000/api/menuorder/add/",{
+    try {
+      await axios.post("http://127.0.0.1:8000/api/menuorder/add/", {
         name: order.name,
         table_number: order.table,
         message: order.msg,
-        items: cart,
+        items: cart.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          qty: item.qty || 1,
+          subtotal: item.price * (item.qty || 1)
+        })),
         total: total
       });
 
       alert("Order Placed Successfully ✅");
 
+      // ✅ Reset everything cleanly
       setCart([]);
       localStorage.removeItem("velvetCart");
       setOpen(false);
-      setOrder({name:"",table:"",msg:""});
+      setOrder({ name: "", table: "", msg: "" });
 
-    }catch(err){
+    } catch (err) {
+      console.error(err);
       alert("Order Failed ❌");
     }
 
     setLoading(false);
   }
-
   return(
     <div className="bg-black text-white min-h-screen pt-28 px-6">
 
