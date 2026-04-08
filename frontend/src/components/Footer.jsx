@@ -113,6 +113,8 @@ export default function Footer(){
               <FaTwitter/>
             </motion.a>
 
+           
+
           </div>
         </motion.div>
 
@@ -126,6 +128,10 @@ export default function Footer(){
       >
         © 2026 Velvet Brew Café • Made with ❤️ & Coffee ☕
       </motion.div>
+
+      <div className="absolute bottom-4 right-4 text-sm text-gray-500">
+        <Link to="/admin">Admin</Link>
+      </div>
 
     </footer>
   )
