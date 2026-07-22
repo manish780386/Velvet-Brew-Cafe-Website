@@ -17,6 +17,7 @@ This project allows customers to view menu items, place orders, book tables, and
 * Responsive design for mobile & desktop
 
 ### 🛠️ Admin Dashboard
+
 * Admin Login
 * Manage Menu Items
 * View Menu Orders
